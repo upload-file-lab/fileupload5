@@ -1,0 +1,33 @@
+> const { sticker } = (await import("../lib/sticker.js"))
+const { upload } = (await import("../lib/uploadgh.js"))
+const axios = require("axios")
+const json = {
+            "type": "quote",
+            "format": "png",
+            "backgroundColor": "#FFFFFF",
+            "width": 512,
+            "height": 768,
+            "scale": 2,
+            "messages": [{
+               "entities": [],
+               "avatar": true,
+               "from": {
+                  "id": 1,
+                  "name": "Ikram",
+                  "photo": {
+                     "url": "https://raw.githubusercontent.com/upload-file-lab/fileupload/main/uploads/1743637320125.jpeg"
+                  }
+               },
+               "text": "Kecap kecap 😹",
+               "replyMessage": {}
+            }]
+         }
+         const response = await axios.post('https://bot.lyo.su/quote/generate', json, {
+            headers: {
+               'Content-Type': 'application/json'
+            }
+         })
+         const buffer = Buffer.from(response.data.result.image, 'base64')
+         const yeah = await upload(buffer)
+        let stiker = await sticker(null, yeah, '', '')
+conn.sendFile(m.chat, stiker, 'sticker.webp', '', m)
